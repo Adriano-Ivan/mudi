@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +29,23 @@ public class Pedido {
 	@Column(columnDefinition="TEXT")
 	private String urlImagem;
 	
+	@Enumerated(EnumType.STRING)
+	private StatusPedido status;
+	
+	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public StatusPedido getStatus() {
+		return status;
+	}
+	public void setStatus(StatusPedido status) {
+		this.status = status;
+	}
 	public String getNomeProduto() {
 		return nomeProduto;
 	}
