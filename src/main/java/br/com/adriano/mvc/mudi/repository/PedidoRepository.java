@@ -14,7 +14,7 @@ import br.com.adriano.mvc.mudi.model.StatusPedido;
 
 @Repository
 public interface PedidoRepository extends
-	JpaRepository<Pedido, Long>{
-
+	JpaRepository<Pedido, Long> {
+	
 	List<Pedido> findByStatus(StatusPedido aguardando);
 }
