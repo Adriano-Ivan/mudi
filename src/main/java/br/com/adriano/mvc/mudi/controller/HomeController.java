@@ -1,5 +1,6 @@
 package br.com.adriano.mvc.mudi.controller;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,21 +21,29 @@ import br.com.adriano.mvc.mudi.model.StatusPedido;
 import br.com.adriano.mvc.mudi.repository.PedidoRepository;
 
 @Controller
-@RequestMapping("home")
+@RequestMapping("/")
 public class HomeController {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	
 	@GetMapping
-	public String home(Model model) {
-		List<Pedido> pedidos = pedidoRepository.findAll();
+	public String root(Model model, Principal principal) {
+		List<Pedido> pedidos =pedidoRepository.findAllByUsuario(principal.getName());
 		model.addAttribute("pedidos",pedidos);
 		
 		return "home";
 	}
-	@GetMapping("/{status}")
-	public String aguardando(@PathVariable("status") String status,Model model){
+	
+	@GetMapping("/home")
+	public String home(Model model, Principal principal) {
+		List<Pedido> pedidos = pedidoRepository.findAllByUsuario(principal.getName());
+		model.addAttribute("pedidos",pedidos);
+		
+		return "home";
+	}
+	@GetMapping("/home/{status}")
+	public String porStatus(@PathVariable("status") String status,Model model){
 		List<Pedido> pedidos = pedidoRepository.findByStatus(StatusPedido.valueOf(status.toUpperCase()));
 		model.addAttribute("pedidos",pedidos);
 		model.addAttribute("status",status);
