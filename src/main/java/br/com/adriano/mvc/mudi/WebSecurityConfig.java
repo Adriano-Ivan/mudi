@@ -27,31 +27,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers(
-                		"/bootstrap/**").permitAll() 
+                		"/bootstrap/**",
+                		"/home/**").permitAll() 
                 .anyRequest().authenticated()
                 .and()
             .formLogin(form -> form
             		.loginPage("/login")
-            		.defaultSuccessUrl("/home",true)
+            		.defaultSuccessUrl("/usuario/pedido",true)
             		.permitAll()
-            ).logout(logout->logout.logoutUrl("/logout"));
-                
+            ).logout(logout->logout.logoutUrl("/logout").logoutSuccessUrl("/home"))
+            .csrf().disable();
     }
     
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
     	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     	
-    	UserDetails user = User.builder()
-				.username("adriano3")
-				.password(encoder.encode("123"))
-				.roles("ADM")
-				.build();
-    	
-    	auth.jdbcAuthentication()
-    	.dataSource(dataSource)
-    	.passwordEncoder(encoder)
-    	.withUser(user);
+//    	UserDetails user = User.builder()
+//				.username("adriano50")
+//				.password(encoder.encode("123"))
+//				.roles("ADM")
+//				.build();
+//    	
+//    	auth.jdbcAuthentication()
+//    	.dataSource(dataSource)
+//    	.passwordEncoder(encoder)
+//    	.withUser(user);
+
+        auth.jdbcAuthentication()
+        .dataSource(dataSource)
+        .passwordEncoder(encoder);
     }
 
 }
