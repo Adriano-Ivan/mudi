@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="users")
 public class User {
@@ -28,6 +30,7 @@ public class User {
 	
 	@OneToMany(cascade = CascadeType.ALL,
 			mappedBy="user",fetch=FetchType.LAZY)
+	@JsonManagedReference
 	private List<Pedido> pedidos;
 	
 	public User() {}
@@ -50,6 +53,13 @@ public class User {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
+	
 	
 	
 }

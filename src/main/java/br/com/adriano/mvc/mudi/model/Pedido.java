@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="pedidos")
 public class Pedido {
@@ -35,6 +37,7 @@ public class Pedido {
 	private StatusPedido status;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JsonBackReference
 	private User user;
 	
 	public Long getId() {
