@@ -2,7 +2,10 @@ package br.com.adriano.mvc.mudi.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,9 +15,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="pedidos")
@@ -40,11 +45,19 @@ public class Pedido {
 	@JsonBackReference
 	private User user;
 	
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="pedido",
+			fetch=FetchType.LAZY)
+	@JsonManagedReference
+	private List<Oferta> ofertas;
+	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public void adicionaOferta(Oferta oferta) {
+		this.ofertas.add(oferta);
 	}
 	public StatusPedido getStatus() {
 		return status;
@@ -95,6 +108,7 @@ public class Pedido {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
+	public List<Oferta> getOfertas() {
+		return ofertas;
+	}
 }
